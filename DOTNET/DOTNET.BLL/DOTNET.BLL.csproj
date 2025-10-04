@@ -6,4 +6,13 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.9" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DOTNET.Data\DOTNET.Data.csproj" />
+    <ProjectReference Include="..\DOTNET.Lib\DOTNET.Lib.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,3 +1,7 @@
+using DOTNET.BLL.Interfaces;
+using DOTNET.BLL.Repositories;
+using DOTNET.Data.Data;
+
 namespace DOTNET
 {
     public class Program
@@ -8,6 +12,8 @@ namespace DOTNET
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddDbContext<MemoryDbContext>();
+            builder.Services.AddScoped<IStudentRepository, MockStudentRepository>();
 
             var app = builder.Build();
 
@@ -34,3 +40,4 @@ namespace DOTNET
         }
     }
 }
+
