@@ -1,0 +1,16 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    <h1>Details Page View</h1>
+    <div>
+        @RenderBody()
+    </div>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

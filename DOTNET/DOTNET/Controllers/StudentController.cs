@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 
 namespace DOTNET.Controllers
 {
+    //[Route("Student")]
+    [Route("[controller]")]
     public class StudentController : Controller
     {
         private readonly IStudentRepository _studentRepository;
@@ -19,7 +21,9 @@ namespace DOTNET.Controllers
 
         ///Views/Student/Index.cshtml
         ///Views/Shared/Index.cshtml
-
+        //[Route("")]
+        //[Route("All")]
+        [Route("[action]")]
         public async Task<ViewResult> Index()
         {
             IList<Student> students = await _studentRepository.GetAllStudents();
@@ -27,8 +31,10 @@ namespace DOTNET.Controllers
         }
 
         // https://localhost:5000/student/GetStudentDetails/1
+       /* [Route("GetStudentDetails/{id:int}")]*/ // add a constraint
+        [Route("[action]/{id:int}")] // add a constraint
         public async Task<ViewResult> GetStudentDetails(int id)
-        
+
         {
             //MemoryDbContext context = new MemoryDbContext();
             //MockStudentRepository repo = new MockStudentRepository(context);
@@ -50,6 +56,14 @@ namespace DOTNET.Controllers
             };
 
             return View(studentViewModel);
+        }
+
+        //Student/studentId/Courses
+        [Route("/student/{studentId}/courses")]
+        public ViewResult GetStudentCourse(int studentId)
+        {
+            IList<string> courses =_studentRepository.GetStudentCourses(studentId);
+            return View(courses);
         }
     }
 }

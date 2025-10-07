@@ -8,6 +8,8 @@ namespace DOTNET.BLL.Interfaces
         Task<Student?> GetStudentById(int id);
         Task<Student> AddStudent(Student newStudent);
         Task<Student> UpdateStudent(Student updatedStudent);
+        IList<string> GetStudentCourses(int studentId);
+
         Task DeleteStudent(int id);
     }
 }

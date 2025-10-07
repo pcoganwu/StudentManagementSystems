@@ -1,9 +1,10 @@
-﻿@using DOTNET.BLL.ViewModels
-@using DOTNET.Lib.Models
+﻿@* @using DOTNET.BLL.ViewModels *@
+@* @using DOTNET.Lib.Models *@
 
 @model StudentViewModel
 
 @{
+    // Layout = "~/Views/Shared/_LayoutDetailsPage.cshtml";
     ViewData["Title"] = "Student Details";
 }
 
@@ -69,3 +70,9 @@
 <div>
     Enrollment Date: @Model.Student.EnrollmentDate
 </div>
+
+@section Scripts {
+    <script>
+        console.log("Student Details Page");
+    </script>
+}
