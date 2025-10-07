@@ -137,5 +137,17 @@ namespace DOTNET.BLL.Repositories
 
             return courseList;
         }
+
+        public IList<string> GetStudentCourses(int studentId)
+        {
+            if (studentId == 1)
+                return new List<string>() { "ASP.NET Core", "C# .NET", "SQLServer" };
+            else if (studentId == 2)
+                return new List<string>() { "ASP.NET Core MVC", "C# .NET", "ADO.NET Core" };
+            else if (studentId == 3)
+                return new List<string>() { "ASP.NET Core WEB API", "C# .NET", "Entity Framework Core" };
+            else
+                return new List<string>() { "BootStrap", "jQuery", "JavaSCript" };// Default case
+        }
     }
 }

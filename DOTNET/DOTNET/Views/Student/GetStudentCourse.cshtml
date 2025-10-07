@@ -1,0 +1,21 @@
+﻿@model IList<string>
+
+@{
+    ViewData["Title"] = "Student Course Details";
+}
+
+<h1>Courses Enrolled</h1>
+
+@if (Model != null && Model.Count > 0)
+{
+    <ul>
+        @foreach (var course in Model)
+        {
+            <li>@course</li>
+        }
+    </ul>
+}
+else
+{
+    <p>No courses found for this student.</p>
+}
