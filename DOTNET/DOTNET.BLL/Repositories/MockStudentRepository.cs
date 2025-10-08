@@ -34,6 +34,7 @@ namespace DOTNET.BLL.Repositories
                 Initials = "A",
                 LastName = "Young",
                 Gender = Gender.Male,
+                PhotoPath = "AndyAYoung.jpg",
                 EnrollmentDate = new DateTime(2020, 9, 1)
             };
 
@@ -44,6 +45,7 @@ namespace DOTNET.BLL.Repositories
                 Initials = "Y",
                 LastName = "Harrison",
                 Gender = Gender.Female,
+                PhotoPath = "JaneYHarriman.jpg",
                 EnrollmentDate = new DateTime(2020, 10, 10)
             };
 
@@ -54,6 +56,7 @@ namespace DOTNET.BLL.Repositories
                 Initials = "G",
                 LastName = "George",
                 Gender = Gender.Unknown,
+                PhotoPath = "KateGGeorge.jpg",
                 EnrollmentDate = new DateTime(2020, 8, 11)
             };
 
@@ -64,6 +67,7 @@ namespace DOTNET.BLL.Repositories
                 Initials = "H",
                 LastName = "Bredd",
                 Gender = Gender.Male,
+                PhotoPath = "MarcHBredd.jpg",
                 EnrollmentDate = new DateTime(2020, 10, 13)
             };
 
