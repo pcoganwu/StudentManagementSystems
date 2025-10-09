@@ -78,7 +78,7 @@
                 <h3 class="text-center">@Model.Student.FirstName @Model.Student.Initials @Model.Student.LastName</h3>
             </div>
             <div class="card-body text-center">
-                <img class="card-img-top" src="@photoPath" height="400" width="400" />
+                <img asp-append-version="true" class="card-img-top" src="@photoPath" height="400" width="400" />
                 <h4>ID: @Model.Student.Id</h4>
                 <h4>Gender: @Model.Student.Gender</h4>
                 <h4>Enrollment Date: @Model.Student.EnrollmentDate?.ToString("yyyy/MM/dd")</h4>

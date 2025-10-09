@@ -65,5 +65,17 @@ namespace DOTNET.Controllers
             IList<string> courses =_studentRepository.GetStudentCourses(studentId);
             return View(courses);
         }
+
+        [HttpGet]
+        public ViewResult CreateStudent()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ViewResult CreateStudent(StudentViewModel model)
+        {
+            return View();
+        }
     }
 }
