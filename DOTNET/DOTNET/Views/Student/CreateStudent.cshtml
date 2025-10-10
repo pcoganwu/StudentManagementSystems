@@ -1,40 +1,46 @@
-﻿@model StudentViewModel
+﻿@model CreateStudentViewModel
 
 @{
     ViewData["Title"] = "Create Student";
 }
 
 <form method="post" asp-controller="Student" asp-action="CreateStudent">
+    <div asp-validation-summary="All" class="text-danger"></div>
     <div class="row mb-3">
-        <label asp-for="@Model.Student.FirstName" class="col-form-label col-md-2" ></label>
+        <label asp-for="@Model.FirstName" class="col-form-label col-md-2" ></label>
         <div class="col-md-6">
-            <input asp-for="@Model.Student.FirstName" class="form-control" />
+            <input asp-for="@Model.FirstName" class="form-control" />
+            <span asp-validation-for="@Model.FirstName" class="text-danger"></span>
         </div>
     </div>
     <div class="row mb-3">
-        <label asp-for="@Model.Student.Initials" class="col-form-label col-md-2"></label>
+        <label asp-for="@Model.Initials" class="col-form-label col-md-2"></label>
         <div class="col-md-6">
-            <input asp-for="@Model.Student.Initials" class="form-control" />
+            <input asp-for="@Model.Initials" class="form-control" />
+            <span asp-validation-for="@Model.Initials" class="text-danger"></span>
         </div>
     </div>
     <div class="row mb-3">
-        <label asp-for="@Model.Student.LastName" class="col-form-label col-md-2"></label>
+        <label asp-for="@Model.LastName" class="col-form-label col-md-2"></label>
         <div class="col-md-6">
-            <input asp-for="@Model.Student.LastName" class="form-control" />
+            <input asp-for="@Model.LastName" class="form-control" />
+            <span asp-validation-for="@Model.LastName" class="text-danger"></span>
         </div>
     </div>
     <div class="row mb-3">
-        <label asp-for="@Model.Student.Gender" class="col-form-label col-md-2"></label>
+        <label asp-for="@Model.Gender" class="col-form-label col-md-2"></label>
         <div class="col-md-6">
-            <select asp-for="@Model.Student.Gender" asp-items="Html.GetEnumSelectList<Gender>()" class="form-control form-select">
+            <select asp-for="@Model.Gender" asp-items="Html.GetEnumSelectList<Gender>()" class="form-control form-select">
 
             </select>
+            <span asp-validation-for="@Model.Gender" class="text-danger"></span>
         </div>
     </div>
     <div class="row mb-3">
-        <label asp-for="@Model.Student.EnrollmentDate" class="col-form-label col-md-2"></label>
+        <label asp-for="@Model.EnrollmentDate" class="col-form-label col-md-2"></label>
         <div class="col-md-6">
-            <input asp-for="@Model.Student.EnrollmentDate" class="form-control" />
+            <input asp-for="@Model.EnrollmentDate" class="form-control" />
+            <span asp-validation-for="@Model.EnrollmentDate" class="text-danger"></span>
         </div>
     </div>
     <div class="row mb-3">

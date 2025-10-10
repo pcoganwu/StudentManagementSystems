@@ -6,7 +6,7 @@
 @{
     // Layout = "~/Views/Shared/_LayoutDetailsPage.cshtml";
     ViewData["Title"] = "Student Details";
-    var photoPath = "/images/" + Model.Student.PhotoPath;
+    var photoPath = "/images/" + (Model.Student.PhotoPath ?? "noimage.jpg");
 }
 
 

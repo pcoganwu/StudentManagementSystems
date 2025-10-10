@@ -1,29 +1,24 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using DOTNET.Lib.Models;
+using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
-using System.Reflection;
 
-namespace DOTNET.Lib.Models
+namespace DOTNET.BLL.ViewModels
 {
-    public class Student
+    public class CreateStudentViewModel
     {
-        public int Id { get; set; }
-
-        //[Required]
-        //[MaxLength(50)]
-        //[Display(Name = "First Name")]
         [Required(ErrorMessage = "First name in required"), MaxLength(50), Display(Name = "First Name")]
         public string? FirstName { get; set; }
 
         [MaxLength(3, ErrorMessage = "Maximum characters allowed is 3")]
         public string? Initials { get; set; }
 
+        [Display(Name = "Photo")]
+        public IFormFile? Photo { get; set; }
+
         [Required]
         [MaxLength(50)]
         [Display(Name = "Last Name")]
         public string? LastName { get; set; }
-
-        [Display(Name = "Photo")]
-        public string? PhotoPath { get; set; }
 
         [Required]
         [Display(Name = "Enrollment Date")]

@@ -63,7 +63,7 @@
     <tbody>
         @foreach (Student student in Model)
         {
-            var photoPath = "/images/" + student.PhotoPath;
+            var photoPath = "/images/" + (student.PhotoPath ?? "noimage.jpg");
 
             <tr>
                 <td>@student.Id</td>
