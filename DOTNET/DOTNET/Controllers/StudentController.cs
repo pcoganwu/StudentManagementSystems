@@ -73,9 +73,32 @@ namespace DOTNET.Controllers
         }
 
         [HttpPost]
-        public ViewResult CreateStudent(StudentViewModel model)
+        public async Task<IActionResult> CreateStudent(CreateStudentViewModel model)
         {
-            return View();
+            if (!ModelState.IsValid) 
+            {
+                return View();
+            }
+
+            if(model.Photo != null)
+            {
+
+            }
+
+            Student student = new Student()
+            {
+                FirstName = model.FirstName,
+                Initials = model.Initials,
+                LastName = model.LastName,
+                Gender = model.Gender,
+                EnrollmentDate = model.EnrollmentDate,
+            };
+
+            Student newStudent = await _studentRepository.AddStudent(student);
+
+            //return RedirectToAction("Index", "Student");
+            //return RedirectToAction("GetStudentDetails", "Student", new {id = newStudent.Id});
+            return RedirectToAction(nameof(GetStudentDetails), nameof(Student), new {id = newStudent.Id});
         }
     }
 }
