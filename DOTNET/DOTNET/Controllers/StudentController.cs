@@ -12,10 +12,12 @@ namespace DOTNET.Controllers
     //[Route("[controller]")]
     public class StudentController : Controller
     {
+        private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IStudentRepository _studentRepository;
 
-        public StudentController(IStudentRepository studentRepository)
+        public StudentController(IWebHostEnvironment webHostEnvironment, IStudentRepository studentRepository)
         {
+            _webHostEnvironment=webHostEnvironment;
             _studentRepository = studentRepository;
         }
 
@@ -31,8 +33,8 @@ namespace DOTNET.Controllers
         }
 
         // https://localhost:5000/student/GetStudentDetails/1
-       /* [Route("GetStudentDetails/{id:int}")]*/ // add a constraint
-        //[Route("[action]/{id:int}")] // add a constraint
+        /* [Route("GetStudentDetails/{id:int}")]*/ // add a constraint
+                                                   //[Route("[action]/{id:int}")] // add a constraint
         public async Task<ViewResult> GetStudentDetails(int id)
 
         {
@@ -62,7 +64,7 @@ namespace DOTNET.Controllers
         [Route("/student/{studentId}/courses")]
         public ViewResult GetStudentCourse(int studentId)
         {
-            IList<string> courses =_studentRepository.GetStudentCourses(studentId);
+            IList<string> courses = _studentRepository.GetStudentCourses(studentId);
             return View(courses);
         }
 
@@ -75,14 +77,20 @@ namespace DOTNET.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateStudent(CreateStudentViewModel model)
         {
-            if (!ModelState.IsValid) 
+            if (!ModelState.IsValid)
             {
                 return View();
             }
 
-            if(model.Photo != null)
-            {
+            string? uniqueFileName = string.Empty;
 
+            if (model.Photo != null)
+            {
+                // 6C74FB75-32CC-496C-8CED-AE722224AD5F_john.png
+                string imageFile = Path.Combine(_webHostEnvironment.WebRootPath, "images");
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
+                string filePath = Path.Combine(imageFile, uniqueFileName);
+                model.Photo.CopyTo(new FileStream(filePath, FileMode.Create));
             }
 
             Student student = new Student()
@@ -91,6 +99,7 @@ namespace DOTNET.Controllers
                 Initials = model.Initials,
                 LastName = model.LastName,
                 Gender = model.Gender,
+                PhotoPath = uniqueFileName,
                 EnrollmentDate = model.EnrollmentDate,
             };
 
@@ -98,7 +107,73 @@ namespace DOTNET.Controllers
 
             //return RedirectToAction("Index", "Student");
             //return RedirectToAction("GetStudentDetails", "Student", new {id = newStudent.Id});
-            return RedirectToAction(nameof(GetStudentDetails), nameof(Student), new {id = newStudent.Id});
+            return RedirectToAction(nameof(GetStudentDetails), nameof(Student), new { id = newStudent.Id });
+        }
+
+        [HttpGet]
+        public async Task<ViewResult> UpdateStudent(int id)
+        {
+            Student? student = await _studentRepository.GetStudentById(id);
+
+            if (student == null)
+            {
+                return null!;
+            }
+
+            UpdateStudentViewModel model = new();
+            model.Id = student.Id;
+            model.FirstName = student.FirstName;
+            model.Initials = student.Initials;
+            model.LastName = student.LastName;
+            model.Gender = student.Gender;
+            model.EnrollmentDate = student.EnrollmentDate;
+            model.ExistingPhotoPath = student.PhotoPath;
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateStudent(UpdateStudentViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
+            Student? student = await _studentRepository.GetStudentById(model.Id);
+
+            if (student == null)
+            {
+                return null!;
+            }
+
+            student.FirstName = model.FirstName;
+            student.Initials = model.Initials;
+            student.LastName = model.LastName;
+            student.Gender = model.Gender;
+            student.EnrollmentDate = model.EnrollmentDate;
+            student.PhotoPath = model.ExistingPhotoPath;
+
+            if (model.Photo != null)
+            {
+                if (model.ExistingPhotoPath != null)
+                {
+                    string fileName = Path.Combine(_webHostEnvironment.WebRootPath, "images", model.ExistingPhotoPath);
+                    System.IO.File.Delete(fileName);
+                }
+
+                string imageFile = Path.Combine(_webHostEnvironment.WebRootPath, "images");
+                string uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
+                string filePath = Path.Combine(imageFile, uniqueFileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await model.Photo.CopyToAsync(fileStream);
+                }
+            }
+
+            await _studentRepository.UpdateStudent(student);
+
+            return RedirectToAction(nameof(GetStudentDetails), nameof(Student), new { id = student.Id });
         }
     }
 }

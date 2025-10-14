@@ -114,16 +114,17 @@ namespace DOTNET.BLL.Repositories
                 return null!;
             }
 
-            studentToUpdate.FirstName = updatedStudent.FirstName;
-            studentToUpdate.Initials = updatedStudent.Initials;
-            studentToUpdate.LastName = updatedStudent.LastName;
-            studentToUpdate.Gender = updatedStudent.Gender;
-            studentToUpdate.EnrollmentDate = updatedStudent.EnrollmentDate;
+            //studentToUpdate.FirstName = updatedStudent.FirstName;
+            //studentToUpdate.Initials = updatedStudent.Initials;
+            //studentToUpdate.LastName = updatedStudent.LastName;
+            //studentToUpdate.Gender = updatedStudent.Gender;
+            //studentToUpdate.EnrollmentDate = updatedStudent.EnrollmentDate;
+            //studentToUpdate.PhotoPath = updatedStudent.PhotoPath;
 
-            _context.Students.Update(studentToUpdate);
+            _context.Students.Update(updatedStudent);
 
             await _context.SaveChangesAsync();
-            return studentToUpdate;
+            return updatedStudent;
         }
 
         public IList<string> GetStudentCourse(int studentID)

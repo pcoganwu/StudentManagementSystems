@@ -63,7 +63,7 @@
     <tbody>
         @foreach (Student student in Model)
         {
-            var photoPath = "/images/" + (student.PhotoPath ?? "noimage.jpg");
+            var photoPath = "~/images/" + (student.PhotoPath ?? "noimage.jpg");
 
             <tr>
                 <td>@student.Id</td>
@@ -76,7 +76,7 @@
                 <td>
                    @*  <a href="/student/getStudentDetails/@student.Id">View</a> *@
                     <a asp-controller="Student" asp-action="GetStudentDetails" asp-route-id="@student.Id">View</a>
-                    <a href="#">Edit</a>
+                    <a asp-controller="Student" asp-action="UpdateStudent" asp-route-id="@student.Id">Edit</a>
                     <a href="#">Delete</a>
                 </td>
             </tr>

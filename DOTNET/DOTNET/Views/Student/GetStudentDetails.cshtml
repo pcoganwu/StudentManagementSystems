@@ -6,7 +6,7 @@
 @{
     // Layout = "~/Views/Shared/_LayoutDetailsPage.cshtml";
     ViewData["Title"] = "Student Details";
-    var photoPath = "/images/" + (Model.Student.PhotoPath ?? "noimage.jpg");
+    var photoPath = "~/images/" + (Model.Student.PhotoPath ?? "noimage.jpg");
 }
 
 
@@ -85,7 +85,7 @@
             </div>
             <div class="card-footer text-center">
                 <a asp-controller="Student" asp-action="Index" class="btn btn-secondary col-md-2">Cancel</a>
-                <a class="btn btn-primary col-md-2">Edit</a>
+                <a asp-controller="Student" asp-action="UpdateStudent" asp-route-id="@Model.Student.Id" class="btn btn-primary col-md-2">Edit</a>
                 <a class="btn btn-danger col-md-2">Delete</a>
             </div>
         </div>
