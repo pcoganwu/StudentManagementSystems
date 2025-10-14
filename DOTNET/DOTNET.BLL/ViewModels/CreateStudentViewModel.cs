@@ -27,6 +27,6 @@ namespace DOTNET.BLL.ViewModels
         [Required]
         public Gender Gender { get; set; }
 
-        public IList<Enrollment>? Enrollments { get; set; }
+        //public IList<Enrollment>? Enrollments { get; set; }
     }
 }
