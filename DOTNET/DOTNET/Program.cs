@@ -1,6 +1,8 @@
 using DOTNET.BLL.Interfaces;
 using DOTNET.BLL.Repositories;
 using DOTNET.Data.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace DOTNET
 {
@@ -13,7 +15,11 @@ namespace DOTNET
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddDbContext<MemoryDbContext>();
-            builder.Services.AddScoped<IStudentRepository, MockStudentRepository>();
+            //builder.Services.AddScoped<IStudentRepository, MockStudentRepository>();
+            builder.Services.AddScoped<IStudentRepository, SQLStudentRepository>();
+
+            builder.Services.AddDbContextFactory<ApplicationDbContext>(options =>
+                    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             var app = builder.Build();
 
