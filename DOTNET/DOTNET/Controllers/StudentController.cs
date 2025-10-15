@@ -36,7 +36,6 @@ namespace DOTNET.Controllers
         /* [Route("GetStudentDetails/{id:int}")]*/ // add a constraint
                                                    //[Route("[action]/{id:int}")] // add a constraint
         public async Task<ViewResult> GetStudentDetails(int id)
-
         {
             //MemoryDbContext context = new MemoryDbContext();
             //MockStudentRepository repo = new MockStudentRepository(context);
@@ -87,10 +86,7 @@ namespace DOTNET.Controllers
             if (model.Photo != null)
             {
                 // 6C74FB75-32CC-496C-8CED-AE722224AD5F_john.png
-                string imageFile = Path.Combine(_webHostEnvironment.WebRootPath, "images");
-                uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
-                string filePath = Path.Combine(imageFile, uniqueFileName);
-                model.Photo.CopyTo(new FileStream(filePath, FileMode.Create));
+                uniqueFileName = ProcessUploadedFile(model);
             }
 
             Student student = new Student()
@@ -109,6 +105,8 @@ namespace DOTNET.Controllers
             //return RedirectToAction("GetStudentDetails", "Student", new {id = newStudent.Id});
             return RedirectToAction(nameof(GetStudentDetails), nameof(Student), new { id = newStudent.Id });
         }
+
+       
 
         [HttpGet]
         public async Task<ViewResult> UpdateStudent(int id)
@@ -161,19 +159,59 @@ namespace DOTNET.Controllers
                     System.IO.File.Delete(fileName);
                 }
 
-                string imageFile = Path.Combine(_webHostEnvironment.WebRootPath, "images");
-                string uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
-                string filePath = Path.Combine(imageFile, uniqueFileName);
+                //string imageFile = Path.Combine(_webHostEnvironment.WebRootPath, "images");
+                //string uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
+                //string filePath = Path.Combine(imageFile, uniqueFileName);
 
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    await model.Photo.CopyToAsync(fileStream);
-                }
+                //using (var fileStream = new FileStream(filePath, FileMode.Create))
+                //{
+                //    await model.Photo.CopyToAsync(fileStream);
+                //}
+
+                //student.PhotoPath = uniqueFileName;
+                string uniqueFileName = ProcessUploadedFile(model);
+            }
+            else
+            {
+                 student.PhotoPath = model.ExistingPhotoPath;
             }
 
-            await _studentRepository.UpdateStudent(student);
+                await _studentRepository.UpdateStudent(student);
 
             return RedirectToAction(nameof(GetStudentDetails), nameof(Student), new { id = student.Id });
+        }
+
+        public async Task<IActionResult> DeleteStudent(int id)
+        {
+            Student? student = await _studentRepository.GetStudentById(id);
+            if (student == null)
+            {
+                return null!;
+            }
+
+            if (student.PhotoPath != null)
+            {
+                string fileName = Path.Combine(_webHostEnvironment.WebRootPath, "images", student.PhotoPath);
+                System.IO.File.Delete(fileName);
+            }
+
+            await _studentRepository.DeleteStudent(id);
+            return RedirectToAction(nameof(Index));
+        }
+
+        private string ProcessUploadedFile(CreateStudentViewModel model)
+        {
+            string uniqueFileName;
+            string imageFile = Path.Combine(_webHostEnvironment.WebRootPath, "images");
+            uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
+            string filePath = Path.Combine(imageFile, uniqueFileName);
+
+            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                model.Photo.CopyTo(fileStream);
+            }
+
+            return uniqueFileName;
         }
     }
 }

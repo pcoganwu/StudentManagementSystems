@@ -23,6 +23,7 @@ namespace DOTNET.Lib.Models
         public string? LastName { get; set; }
 
         [Display(Name = "Photo")]
+        [MaxLength(400)]
         public string? PhotoPath { get; set; }
 
         [Required]
