@@ -8,6 +8,6 @@ namespace DOTNET.BLL.Interfaces
         Task<Course> GetCourseById(int id);
         Task<Course> AddCourse(Course newCourse);
         Task<Course> UpdateCourse(Course updatedCourse);
-        void DeleteCourse(int id);
+        Task DeleteCourse(int id);
     }
 }
