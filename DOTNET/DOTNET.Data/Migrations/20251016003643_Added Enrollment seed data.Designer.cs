@@ -4,6 +4,7 @@ using DOTNET.Data.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DOTNET.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251016003643_Added Enrollment seed data")]
+    partial class AddedEnrollmentseeddata
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,8 +36,8 @@ namespace DOTNET.Data.Migrations
                     b.Property<int>("Credit")
                         .HasColumnType("int");
 
-                    b.Property<string>("Instructor")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("InstructorID")
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .HasMaxLength(50)
@@ -49,30 +52,35 @@ namespace DOTNET.Data.Migrations
                         {
                             Id = 1,
                             Credit = 3,
+                            InstructorID = 0,
                             Title = "Introduction to Programming"
                         },
                         new
                         {
                             Id = 2,
                             Credit = 4,
+                            InstructorID = 0,
                             Title = "Database Systems"
                         },
                         new
                         {
                             Id = 3,
                             Credit = 3,
+                            InstructorID = 0,
                             Title = "Web Development"
                         },
                         new
                         {
                             Id = 4,
                             Credit = 4,
+                            InstructorID = 0,
                             Title = "Data Structures and Algorithms"
                         },
                         new
                         {
                             Id = 5,
                             Credit = 3,
+                            InstructorID = 0,
                             Title = "Software Engineering"
                         });
                 });

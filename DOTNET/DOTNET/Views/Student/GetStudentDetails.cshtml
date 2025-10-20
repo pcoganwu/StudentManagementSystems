@@ -72,16 +72,48 @@
     Enrollment Date: @Model.Student.EnrollmentDate
 </div> *@
 <div class="d-flex justify-content-center">
-    <div class="col-md-5">
+    <div class="row">
+
+    </div>
+    <div class="col-md-12">
         <div class="card">
             <div class="card-header bg-primary text-white">
                 <h3 class="text-center">@Model.Student.FirstName @Model.Student.Initials @Model.Student.LastName</h3>
             </div>
             <div class="card-body text-center">
-                <img asp-append-version="true" class="card-img-top" src="@photoPath" height="400" width="400" />
-                <h4>ID: @Model.Student.Id</h4>
-                <h4>Gender: @Model.Student.Gender</h4>
-                <h4>Enrollment Date: @Model.Student.EnrollmentDate?.ToString("yyyy/MM/dd")</h4>
+                <div class="row">
+                    <div class="col-md-6">
+                        <img asp-append-version="true" class="card-img-top" src="@photoPath" height="400" width="350" />
+                    </div>
+                    <div class="col-md-6">
+                        <h4>ID: @Model.Student.Id</h4>
+                        <h4>Gender: @Model.Student.Gender</h4>
+                        <h4>Enrollment Date: @Model.Student.EnrollmentDate?.ToString("yyyy/MM/dd")</h4>
+
+                        @if (Model.Student.Enrollments != null)
+                        {
+                            <table class="table table-borderless">
+                                <thead>
+                                    <tr>
+                                        <th>Course</th>
+                                        <th>Grade</th>
+                                        <th>Instructor</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var enrollment in Model.Student.Enrollments)
+                                    {
+                                        <tr>
+                                            <td>@enrollment?.Course?.Title</td>
+                                            <td>@(enrollment.Grade.ToString())</td>
+                                            <td>@(enrollment.Course?.Instructor)</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                    </div>
+                </div>
             </div>
             <div class="card-footer text-center">
                 <a asp-controller="Student" asp-action="Index" class="btn btn-secondary col-md-2">Cancel</a>

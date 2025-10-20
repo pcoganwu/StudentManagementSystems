@@ -8,6 +8,6 @@ namespace DOTNET.BLL.Interfaces
         Task<Enrollment> GetEnrollmentById(int id);
         Task<Enrollment> AddEnrollment(Enrollment newEnrollment);
         Task<Enrollment> UpdateEnrollment(Enrollment updatedEnrollment);
-        void DeleteEnrollment(int id);
+        Task DeleteEnrollment(int id);
     }
 }

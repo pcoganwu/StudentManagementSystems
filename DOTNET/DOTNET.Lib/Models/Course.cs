@@ -9,7 +9,7 @@ namespace DOTNET.Lib.Models
         [MaxLength(50)]
         public string? Title { get; set; }
         public int Credit { get; set; }
-        public int InstructorID { get; set; }
+        public string? Instructor { get; set; }
         public IList<Enrollment>? Enrollments { get; set; }
     }
 }

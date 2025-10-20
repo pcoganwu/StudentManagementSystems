@@ -41,7 +41,10 @@ namespace DOTNET.BLL.Repositories
 
         public async Task<Student?> GetStudentById(int id)
         {
-            return await _context.Students.FirstOrDefaultAsync(s => s.Id == id);
+            return await _context.Students
+                .Include(x => x.Enrollments!)
+                    .ThenInclude(e => e.Course)
+                .FirstOrDefaultAsync(s => s.Id == id);
         }
 
         public IList<string> GetStudentCourses(int studentId)
