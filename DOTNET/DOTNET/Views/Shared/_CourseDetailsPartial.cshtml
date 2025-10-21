@@ -1,0 +1,25 @@
+﻿@model Enrollment
+
+@{
+    var s = Model.Student;
+    var fullName = s is null ? "Unknown" : $"{s.FirstName} {s.Initials} {s.LastName}".Replace("  ", " ").Trim();
+    var photoPath = "~/images/" + (s?.PhotoPath ?? "noimage.jpg");
+}
+ 
+<tr>
+    <td>
+        <img asp-append-version="true" src="@photoPath" class="rounded" alt="@fullName" width="56" height="56" style="object-fit:cover;" />
+    </td>
+    <td class="fw-semibold">@fullName</td>
+    <td>@(s?.Gender.ToString() ?? "-")</td>
+    <td>@(s?.EnrollmentDate?.ToString("yyyy/MM/dd") ?? "-")</td>
+    <td>@Model.Grade.ToString()</td>
+    <td>
+        @if (s != null)
+        {
+            <a asp-controller="Student" asp-action="GetStudentDetails" asp-route-id="@s.Id" class="btn btn-sm btn-outline-primary m-1">View Student</a>
+        }
+        <a asp-controller="Courses" asp-action="Index" class="btn btn-sm btn-outline-secondary">Back to Courses</a>
+    </td>
+</tr>
+

@@ -15,7 +15,7 @@ namespace DOTNET.Controllers
         public async Task<IActionResult> Index()
         {
             var enrollments = await _enrollmentRespository.GetAllEnrollments();
-            return View();
+            return View(enrollments);
         }
     }
 }

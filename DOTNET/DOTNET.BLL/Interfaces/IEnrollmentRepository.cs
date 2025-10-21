@@ -9,5 +9,7 @@ namespace DOTNET.BLL.Interfaces
         Task<Enrollment> AddEnrollment(Enrollment newEnrollment);
         Task<Enrollment> UpdateEnrollment(Enrollment updatedEnrollment);
         Task DeleteEnrollment(int id);
+
+        Task<IList<CourseEnrollmentCount>> CourseEnrollmentCounts();
     }
 }
