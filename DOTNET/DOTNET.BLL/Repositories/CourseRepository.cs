@@ -37,12 +37,12 @@ namespace DOTNET.BLL.Repositories
 
         public async Task<IList<Course>> GetAllCourses()
         {
-            return await _context.Courses.ToListAsync();
+            return await _context.Courses.Include(e => e.Enrollments).ToListAsync();
         }
 
         public async Task<Course> GetCourseById(int id)
         {
-            var course =  await _context.Courses.FirstOrDefaultAsync(c => c.Id == id);
+            var course =  await _context.Courses.Include(e => e.Enrollments).ThenInclude(s => s.Student).FirstOrDefaultAsync(c => c.Id == id);
 
             if (course == null)
             {

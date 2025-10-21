@@ -1,0 +1,79 @@
+﻿@model IList<Enrollment>
+
+@{
+    ViewData["Title"] = "Enrollment List";
+    var enrollments = Model ?? new List<Enrollment>();
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-11">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h4 class="mb-0">Enrollments</h4>
+                <span class="badge bg-light text-dark">Total: @enrollments.Count</span>
+            </div>
+            <div class="card-body">
+                @if (!enrollments.Any())
+                {
+                    <div class="alert alert-secondary mb-0">No enrollments found.</div>
+                }
+                else
+                {
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="text-nowrap" style="width: 120px;">Enrollment ID</th>
+                                    <th>Course</th>
+                                    <th>Student</th>
+                                    <th class="text-nowrap" style="width: 120px;">Grade</th>
+                                    <th style="width: 220px;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var enrollment in enrollments)
+                                {
+                                    var courseTitle = enrollment.Course?.Title ?? "Unknown Course";
+                                    var studentName = (enrollment.Student is null)
+                                    ? "Unknown Student"
+                                    : $"{enrollment.Student.FirstName} {enrollment.Student.LastName}".Trim();
+                                    var gradeText = enrollment.Grade.ToString();
+                                    var gradeClass = enrollment.Grade switch
+                                    {
+                                        Grade.A => "success",
+                                        Grade.B => "primary",
+                                        Grade.C => "warning",
+                                        Grade.D => "danger",
+                                        _ => "secondary"
+                                    };
+                                    <tr>
+                                        <td class="text-nowrap">@enrollment.Id</td>
+                                        <td class="fw-semibold">@courseTitle</td>
+                                        <td>@studentName</td>
+                                        <td>
+                                            <span class="badge bg-@gradeClass">@gradeText</span>
+                                        </td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <a asp-controller="Courses" asp-action="Details" asp-route-id="@enrollment.CourseID" class="btn btn-sm btn-outline-primary">Course</a>
+                                                @if (enrollment.Student != null)
+                                                {
+                                                    <a asp-controller="Student" asp-action="GetStudentDetails" asp-route-id="@enrollment.StudentID" class="btn btn-sm btn-outline-secondary">Student</a>
+                                                }
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            </div>
+            <div class="card-footer text-end">
+                <a asp-controller="Courses" asp-action="Index" class="btn btn-secondary">Back to Courses</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+

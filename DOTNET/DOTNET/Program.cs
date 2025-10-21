@@ -18,6 +18,7 @@ namespace DOTNET
             //builder.Services.AddScoped<IStudentRepository, MockStudentRepository>();
             builder.Services.AddScoped<IStudentRepository, SQLStudentRepository>();
             builder.Services.AddScoped<IEnrollmentRespository, EnrollmentRespository>();
+            builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 
             builder.Services.AddDbContextFactory<ApplicationDbContext>(options =>
                     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));

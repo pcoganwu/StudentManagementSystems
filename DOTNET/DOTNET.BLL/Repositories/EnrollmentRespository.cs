@@ -23,6 +23,16 @@ namespace DOTNET.BLL.Repositories
            return addedEnrollment.Entity;
         }
 
+        public async Task<IList<CourseEnrollmentCount>> CourseEnrollmentCounts()
+        {
+            return await _context.Enrollments.GroupBy(s => new { s.Course!.Title })
+                .Select(g => new CourseEnrollmentCount
+                {
+                    CourseTitle = g.Key.Title,
+                    NumberOfStudents = g.Count()
+                }).ToListAsync();
+        }
+
         public async Task DeleteEnrollment(int id)
         {
             var enrollment = await _context.Enrollments.FirstOrDefaultAsync(e => e.Id == id);
@@ -36,12 +46,12 @@ namespace DOTNET.BLL.Repositories
 
         public async Task<IList<Enrollment>> GetAllEnrollments()
         {
-            return await _context.Enrollments.Include(c => c.Course).ToListAsync();
+            return await _context.Enrollments.Include(c => c.Course).Include(s => s.Student).ToListAsync();
         }
 
         public async Task<Enrollment> GetEnrollmentById(int id)
         {
-            var enrollment = await _context.Enrollments.FirstOrDefaultAsync(e => e.Id == id);
+            var enrollment = await _context.Enrollments.Include(c => c.Course).Include(s => s.Student).FirstOrDefaultAsync(e => e.Id == id);
 
             if (enrollment == null)
             {
